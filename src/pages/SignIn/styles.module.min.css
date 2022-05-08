@@ -1,0 +1,1 @@
+#SignIn.container{height:100vh;width:100vw}#SignIn main{padding:24px}#SignIn .form>*{display:block;width:100%}#SignIn .form a{margin-top:40px;display:flex;align-items:center;gap:19px}#SignIn .form a svg{color:var(--color-red-hero)}
