@@ -1,6 +1,7 @@
+import { ComponentPropsWithoutRef } from 'react'
 import styled from 'styled-components'
 
-type ButtonProps = React.ComponentPropsWithoutRef<'button'>
+type ButtonProps = ComponentPropsWithoutRef<'button'>
 
 export const Button = (props: ButtonProps) => {
   return <ButtonStyled {...props} />

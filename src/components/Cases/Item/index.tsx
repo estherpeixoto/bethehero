@@ -1,19 +1,13 @@
-import styles from './styles.module.css'
+import { Case } from '@lib/entities'
 import { FiArrowRight } from 'react-icons/fi'
-
-interface Case {
-  id: number
-  ong: string
-  descricao: string
-  valor: number
-}
+import styles from './styles.module.css'
 
 interface CaseItemProps {
-  caseInfo: Case
+  item: Case
 }
 
-export const Item: React.FunctionComponent<CaseItemProps> = ({ caseInfo }) => {
-  const { id, descricao, ong, valor } = caseInfo
+export const Item: React.FC<CaseItemProps> = ({ item }) => {
+  const { id, descricao, ong, valor } = item
 
   return (
     <div className={styles.card}>

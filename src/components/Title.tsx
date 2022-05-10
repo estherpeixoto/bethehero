@@ -1,8 +1,8 @@
-import React from 'react'
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 
-interface TitleProps {
-  children?: React.ReactNode
+type TitleProps = {
+  children: ReactNode
 }
 
 export const Title = ({ children }: TitleProps) => {

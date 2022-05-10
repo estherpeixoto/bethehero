@@ -1,39 +1,36 @@
+import { useEffect, useState } from 'react'
+import { Case } from '@lib/entities'
+import { caseService } from '@services/case.services'
 import { Item } from '@components/Cases/Item'
+import { Loading } from '@components/Loading'
 import styles from './styles.module.css'
 
-const cases = [
-  {
-    id: 1,
-    ong: 'APAD',
-    descricao: 'Cadelinha atropelada 1',
-    valor: 120
-  },
-  {
-    id: 2,
-    ong: 'APAD',
-    descricao: 'Cadelinha atropelada 2',
-    valor: 120
-  },
-  {
-    id: 3,
-    ong: 'APAD',
-    descricao: 'Cadelinha atropelada 3',
-    valor: 120
-  },
-  {
-    id: 4,
-    ong: 'APAD',
-    descricao: 'Cadelinha atropelada 4',
-    valor: 120
-  },
-]
-
 export function List() {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [cases, setCases] = useState<Array<Case>>([])
+
+  useEffect(() => {
+    fetchCases()
+  }, [])
+
+  const fetchCases = async () => {
+    setIsLoading(true)
+
+    const data = await caseService.findAll()
+    setCases(data)
+
+    setIsLoading(false)
+  }
+
   return (
     <div className={styles.container}>
-      {cases.map((item) => {
-        return <Item caseInfo={item} key={item.id} />
-      })}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        cases.map((item) => {
+          return <Item item={item} key={item.id} />
+        })
+      )}
     </div>
   )
 }

@@ -1,9 +1,9 @@
-import React from 'react'
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 import { Link } from './Link'
 
 interface PageHeaderProps {
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export const PageHeader = ({ children }: PageHeaderProps) => {
