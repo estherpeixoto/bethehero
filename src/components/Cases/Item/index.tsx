@@ -16,7 +16,7 @@ export const Item: React.FC<CaseItemProps> = ({ item }) => {
           <strong>CASO:</strong> {descricao}
         </p>
         <p>
-          <strong>ONG:</strong> {ong}
+          <strong>ONG:</strong> {ong.nome}
         </p>
         <p>
           <strong>VALOR:</strong> R${valor}

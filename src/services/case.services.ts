@@ -1,25 +1,37 @@
-import { collection, getDocs } from 'firebase/firestore'
+import { getDocs, collection, doc, getDoc } from 'firebase/firestore'
 
 import { db } from '@lib/firebase'
 import { Case } from '@lib/entities'
 
 class CaseService {
-  // add() {}
-
   async findAll() {
     const querySnapshot = await getDocs(collection(db, 'cases'))
 
     let cases: Case[] = []
 
-    querySnapshot.forEach((doc) => {
-      const { ong, descricao, valor } = doc.data()
+    querySnapshot.forEach(async (rows) => {
+      const item = rows.data()
 
-      cases.push({
-        id: doc.id,
-        ong: ong.id,
-        descricao,
-        valor,
-      })
+      if (item.ong) {
+        const ongRef = doc(db, 'organization', item.ong.id)
+        const ongDoc = await getDoc(ongRef)
+        const ong = ongDoc.data()
+        ong.id = item.ong.id
+
+        cases.push({
+          id: rows.id,
+          ong: {
+            cidade: ong.cidade,
+            email: ong.email,
+            id: ong.id,
+            nome: ong.nome,
+            uf: ong.uf,
+            whatsapp: ong.whatsapp,
+          },
+          descricao: item.descricao,
+          valor: item.valor,
+        })
+      }
     })
 
     return cases
