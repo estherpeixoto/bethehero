@@ -19,7 +19,7 @@ export const Item: React.FC<CaseItemProps> = ({ item }) => {
           <strong>ONG:</strong> {ong.nome}
         </p>
         <p>
-          <strong>VALOR:</strong> R${valor}
+          <strong>VALOR:</strong> {valor.toLocaleString('pt-br',{ style: 'currency', currency: 'BRL' })}
         </p>
       </main>
 
