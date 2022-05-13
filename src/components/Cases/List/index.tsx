@@ -19,7 +19,9 @@ export function List() {
     const data = await caseService.findAll()
     setCases(data)
 
-    setIsLoading(false)
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 500)
   }
 
   return (
