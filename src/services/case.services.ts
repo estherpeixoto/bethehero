@@ -12,24 +12,24 @@ class CaseService {
     querySnapshot.forEach(async (rows) => {
       const item = rows.data()
 
-      if (item.ong) {
-        const ongRef = doc(db, 'organization', item.ong.id)
-        const ongDoc = await getDoc(ongRef)
-        const ong = ongDoc.data()
-        ong.id = item.ong.id
+      if (item.organization) {
+        const organizationRef = doc(db, 'organization', item.organization.id)
+        const organizationDoc = await getDoc(organizationRef)
+        const organization = organizationDoc.data()
 
         cases.push({
           id: rows.id,
-          ong: {
-            cidade: ong.cidade,
-            email: ong.email,
-            id: ong.id,
-            nome: ong.nome,
-            uf: ong.uf,
-            whatsapp: ong.whatsapp,
+          organization: {
+            id: item.organization.id,
+            name: organization.name,
+            email: organization.email,
+            phone: organization.phone,
+            city: organization.city,
+            state: organization.state,
           },
-          descricao: item.descricao,
-          valor: item.valor,
+          title: item.title,
+          description: item.description,
+          value: item.value,
         })
       }
     })

@@ -10,7 +10,7 @@ export const PageHeader = ({ children }: PageHeaderProps) => {
   return (
     <DivStyled>
       <Link to="/">
-        <ImageStyled src="assets/images/Logo.svg" alt="Be The Hero" />
+        <ImageStyled src="/assets/images/Logo.svg" alt="Be The Hero" />
       </Link>
       {children}
     </DivStyled>

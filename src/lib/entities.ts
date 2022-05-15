@@ -1,15 +1,16 @@
 export type Organization = {
-  cidade: string
-  email: string
   id?: string
-  nome: string
-  uf: string
-  whatsapp: string
+  name: string
+  email: string
+  phone: string
+  city: string
+  state: string
 }
 
 export type Case = {
   id?: string
-  ong: Organization
-  descricao: string
-  valor: number
+  organization: Organization
+  title: string
+  description: string
+  value: number
 }

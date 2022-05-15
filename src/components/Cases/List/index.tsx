@@ -30,7 +30,7 @@ export function List() {
         <Loading />
       ) : (
         cases.map((item) => {
-          return <Item item={item} key={item.id} />
+          return <Item detailPage={false} item={item} key={item.id} />
         })
       )}
     </div>
