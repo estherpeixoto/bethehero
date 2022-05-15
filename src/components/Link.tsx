@@ -15,6 +15,6 @@ const RouterLinkStyled = styled(RouterLink)`
   font-weight: 700;
   font-size: 18px;
   line-height: 21px;
-  color: #41414d;
+  color: var(--color-secondary-title);
   text-decoration: none;
 `

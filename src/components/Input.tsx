@@ -41,8 +41,8 @@ const InputContainer = styled.div`
 `
 
 const InputStyled = styled.input`
-  background: #ffffff;
-  border: 1.5px solid #dcdce6;
+  background: var(--color-inputs);
+  border: 1.5px solid var(--color-border);
   box-sizing: border-box;
   border-radius: 0.44rem;
   padding: 15px 15px 0;
@@ -68,12 +68,12 @@ const LabelStyled = styled.label`
 
   font-weight: 400;
   font-size: 18px;
-  color: #a8a8b3;
+  color: var(--color-secondary-text);
   line-height: 1;
   left: 16px;
 
   &:focus-within {
     transform: translate(0, 12px) scale(0.8);
-    color: #0a53e4;
+    color: var(--color-label-focus);
   }
 `

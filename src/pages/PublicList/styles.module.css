@@ -12,13 +12,13 @@
   font-size: 15px;
   line-height: 15px;
   text-align: right;
-  color: #737380;
+  color: var(--color-text);
 }
 
 #List p.subtitle {
   font-weight: 400;
   font-size: 20px;
   line-height: 30px;
-  color: #737380;
+  color: var(--color-text);
   margin-bottom: 38px;
 }

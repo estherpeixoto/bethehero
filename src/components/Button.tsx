@@ -15,12 +15,21 @@ const ButtonStyled = styled.button`
   font-size: 1rem;
   line-height: 1.16rem;
   text-align: center;
-  color: #f0f0f5;
+  color: var(--color-background);
   height: 50px;
   cursor: pointer;
   transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
   :hover {
     box-shadow: 0 0 0 2px rgb(224 32 65 / 50%);
+  }
+
+  :disabled {
+    opacity: 50%;
+    cursor: not-allowed;
+
+    :hover {
+      box-shadow: none;
+    }
   }
 `
