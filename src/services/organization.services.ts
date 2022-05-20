@@ -1,31 +1,40 @@
-import { addDoc, collection, query, where, getDocs } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  CollectionReference,
+  DocumentData,
+} from 'firebase/firestore'
+
 import { db } from '@lib/firebase'
 import { Organization } from '@lib/entities'
 
 class OrganizationService {
-  async add(newOrganization: Organization) {
-    const organizationRef = await addDoc(
-      collection(db, 'organization'),
-      newOrganization,
-    )
+  organizationRef: CollectionReference<DocumentData>
 
+  constructor() {
+    this.organizationRef = collection(db, 'organization')
+  }
+
+  async add(newOrganization: Organization) {
+    const organizationRef = await addDoc(this.organizationRef, newOrganization)
     return organizationRef.id ? true : false
   }
 
-  async find({ email }: Organization) {
-    const organizationsRef = collection(db, 'organization')
-
+  async find(email: string) {
     const querySnapshot = await getDocs(
-      query(organizationsRef, where('email', '==', email)),
+      query(this.organizationRef, where('email', '==', email))
     )
 
     let organization: Organization
 
-    querySnapshot.forEach(async (rows) => {
-      const data = rows.data()
+    querySnapshot.forEach(async (item) => {
+      const data = item.data()
 
       organization = {
-        id: data.id,
+        id: item.id,
         name: data.name,
         email: data.email,
         phone: data.phone,
