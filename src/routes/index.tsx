@@ -1,16 +1,14 @@
-import { Route, Routes } from 'react-router-dom'
-import { PublicList } from '@pages/PublicList'
-import { SignIn } from '@pages/SignIn'
-import { CreateAccount } from '@pages/CreateAccount'
-import { Show } from '@pages/Case/Show'
+import { useAuth } from 'src/hooks/useAuth'
+import { PrivateRoutes } from './PrivateRoutes'
+import { PublicRoutes } from './PublicRoutes'
 
-export function PublicRoutes() {
-  return (
-    <Routes>
-      <Route path="/" element={<PublicList />} />
-      <Route path="sign-in" element={<SignIn />} />
-      <Route path="create-account" element={<CreateAccount />} />
-      <Route path="case/:id" element={<Show />} />
-    </Routes>
-  )
+export function Routes() {
+  const { authenticated, organization } = useAuth()
+
+  console.log({
+    authenticated,
+    organization
+  })
+
+  return authenticated ? <PrivateRoutes /> : <PublicRoutes />
 }

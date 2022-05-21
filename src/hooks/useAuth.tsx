@@ -1,46 +1,59 @@
 import { createContext, useContext, useState } from 'react'
 import { Organization } from '@lib/entities'
 import { organizationService } from '@services/organization.services'
+import { setStorage, getStorage } from '@utils/storage'
 
-const AuthContext = createContext(null)
+interface AuthProviderInterface {
+  authenticated: Boolean
+  organization: Organization|null
+  signIn: (email: string) => Promise<boolean>
+  signOut: () => boolean
+}
+
+const AuthContext = createContext<AuthProviderInterface | null>(null)
 
 export const AuthProvider = ({ children }) => {
-  const [authenticated, setAuthenticated] = useState<boolean>(false)
-  const [organization, setOrganization] = useState<Organization>()
+  const [authenticated, setAuthenticated] = useState<boolean>(
+    JSON.parse(getStorage('authenticated'))
+  )
 
-  const signIn = async ({ email }) => {
-    const result = await fakeAsyncSignIn(email)
+  const [organization, setOrganization] = useState<Organization | null>(
+    JSON.parse(getStorage('organization'))
+  )
 
-    console.log(result)
+  const signIn = async (email: string) => {
+    const result = await organizationService.find(email)
 
     if (result) {
       setAuthenticated(true)
+      setOrganization(result)
+
+      setStorage('authenticated', 'true')
+      setStorage('organization', JSON.stringify(result))
+
+      return true
     }
+
+    return false
   }
 
-  const signOut = async () => {
-    const result = await fakeAsyncSignOut()
+  const signOut = () => {
+    setStorage('authenticated', 'false')
+    setStorage('organization', 'null')
+    setAuthenticated(false)
+    setOrganization(null)
 
-    if (result) {
-      setAuthenticated(false)
-    }
-  }
-
-  const fakeAsyncSignIn = async (email): Promise<Organization> => {
-    return await organizationService.find(email)
-  }
-
-  const fakeAsyncSignOut = async (): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve('signOut')
-      }, 300)
-    })
+    return true
   }
 
   return (
     <AuthContext.Provider
-      value={{ authenticated, setAuthenticated, signIn, signOut }}
+      value={{
+        authenticated,
+        organization,
+        signIn,
+        signOut,
+      }}
     >
       {children}
     </AuthContext.Provider>

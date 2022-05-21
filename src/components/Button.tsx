@@ -16,7 +16,7 @@ const ButtonStyled = styled.button`
   line-height: 1.16rem;
   text-align: center;
   color: var(--color-background);
-  height: 50px;
+  height: 60px;
   cursor: pointer;
   transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 

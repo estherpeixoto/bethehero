@@ -7,18 +7,21 @@ import { Title } from '@components/Title'
 import { Link } from '@components/Link'
 import styles from './styles.module.css'
 import { useAuth } from 'src/hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 export function SignIn() {
   const [email, setEmail] = useState('')
   const { signIn } = useAuth()
+  const navigate = useNavigate()
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
-    // Set manually the organization credentials (temporarily)
-    signIn({
-      email,
-    })
+    const status = await signIn(email)
+
+    if (status) {
+      navigate('/')
+    }
   }
 
   return (
