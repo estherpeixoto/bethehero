@@ -12,6 +12,8 @@ import { Button } from '@components/Button'
 import { Container } from '@components/Container'
 import { Main } from '@components/Main'
 import styled from 'styled-components'
+import { ButtonIcon } from '@components/ButtonIcon'
+import { DarkModeToggle } from '@components/DarkModeToggle'
 
 export function Show() {
   const { state } = useLocation()
@@ -24,10 +26,13 @@ export function Show() {
   return (
     <Container>
       <Main>
-        <PageHeader>
-          <Link to="/" style={{ padding: '10px' }}>
-            <FiArrowLeft style={{ color: 'var(--brand)' }} />
+        <PageHeader showLogo={false}>
+          <Link to="/">
+            <ButtonIcon>
+              <FiArrowLeft size={24} />
+            </ButtonIcon>
           </Link>
+          <DarkModeToggle />
         </PageHeader>
 
         <form>

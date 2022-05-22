@@ -11,6 +11,8 @@ import { Main } from '@components/Main'
 import { Success } from './Success'
 import { Error } from './Error'
 import styled from 'styled-components'
+import { ButtonIcon } from '@components/ButtonIcon'
+import { DarkModeToggle } from '@components/DarkModeToggle'
 
 export function CreateAccount() {
   const [feedback, setFeedback] = useState<boolean | null>(null)
@@ -44,10 +46,13 @@ export function CreateAccount() {
           <Error />
         ) : (
           <>
-            <PageHeader>
-              <Link to="/sign-in" style={{ padding: '10px' }}>
-                <FiArrowLeft style={{ color: 'var(--brand)' }} />
+            <PageHeader showLogo={false}>
+              <Link to="/sign-in">
+                <ButtonIcon>
+                  <FiArrowLeft size={24} />
+                </ButtonIcon>
               </Link>
+              <DarkModeToggle />
             </PageHeader>
 
             <Form onSubmit={handleSubmit}>
