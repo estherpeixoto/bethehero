@@ -1,13 +1,16 @@
 import { FormEvent, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FiArrowLeft, FiLogIn } from 'react-icons/fi'
+import { useAuth } from '@hooks/useAuth'
 import { Input } from '@components/Input'
 import { Button } from '@components/Button'
 import { PageHeader } from '@components/PageHeader'
 import { Title } from '@components/Title'
 import { Link } from '@components/Link'
-import styles from './styles.module.css'
-import { useAuth } from '@hooks/useAuth'
-import { useNavigate } from 'react-router-dom'
+import { DarkModeToggle } from '@components/DarkModeToggle'
+import { ButtonIcon } from '@components/ButtonIcon'
+import { Container } from '@components/Container'
+import styled from 'styled-components'
 
 export function SignIn() {
   const [email, setEmail] = useState('')
@@ -25,15 +28,18 @@ export function SignIn() {
   }
 
   return (
-    <div id={styles.SignIn} className={styles.container}>
-      <main>
-        <PageHeader>
-          <Link to="/" style={{ padding: '10px' }}>
-            <FiArrowLeft style={{ color: 'var(--color-red-hero)' }} />
+    <Container>
+      <MainStyled>
+        <PageHeader showLogo={false}>
+          <Link to="/">
+            <ButtonIcon>
+              <FiArrowLeft size={24} />
+            </ButtonIcon>
           </Link>
+          <DarkModeToggle />
         </PageHeader>
 
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={handleSubmit}>
           <Title>Faça seu logon</Title>
 
           <Input
@@ -53,7 +59,27 @@ export function SignIn() {
             Não tenho cadastro
           </Link>
         </form>
-      </main>
-    </div>
+      </MainStyled>
+    </Container>
   )
 }
+
+const MainStyled = styled.main`
+  padding: 24px;
+
+  form > * {
+    display: block;
+    width: 100%;
+  }
+
+  form a {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    gap: 19px;
+
+    svg {
+      color: var(--brand);
+    }
+  }
+`

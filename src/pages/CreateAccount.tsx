@@ -6,9 +6,11 @@ import { Button } from '@components/Button'
 import { PageHeader } from '@components/PageHeader'
 import { Title } from '@components/Title'
 import { Link } from '@components/Link'
-import styles from './styles.module.css'
+import { Container } from '@components/Container'
+import { Main } from '@components/Main'
 import { Success } from './Success'
 import { Error } from './Error'
+import styled from 'styled-components'
 
 export function CreateAccount() {
   const [feedback, setFeedback] = useState<boolean | null>(null)
@@ -34,8 +36,8 @@ export function CreateAccount() {
   }
 
   return (
-    <div id={styles.CreateAccount} className={styles.container}>
-      <main style={{ height: typeof feedback === 'boolean' ? '100%' : 'auto' }}>
+    <Container>
+      <Main style={{ height: typeof feedback === 'boolean' ? '100%' : 'auto' }}>
         {feedback === true ? (
           <Success />
         ) : feedback === false ? (
@@ -44,17 +46,17 @@ export function CreateAccount() {
           <>
             <PageHeader>
               <Link to="/sign-in" style={{ padding: '10px' }}>
-                <FiArrowLeft style={{ color: 'var(--color-red-hero)' }} />
+                <FiArrowLeft style={{ color: 'var(--brand)' }} />
               </Link>
             </PageHeader>
 
-            <form onSubmit={handleSubmit} className={styles.form}>
+            <Form onSubmit={handleSubmit}>
               <Title>Cadastro</Title>
 
-              <p className={styles.subtitle}>
+              <Subtitle>
                 Faça seu cadastro, entre na plataforma e ajude pessoas a
                 encontrarem os casos da sua ONG.
-              </p>
+              </Subtitle>
 
               <Input
                 label="Nome da ONG"
@@ -117,10 +119,26 @@ export function CreateAccount() {
               >
                 Cadastrar
               </Button>
-            </form>
+            </Form>
           </>
         )}
-      </main>
-    </div>
+      </Main>
+    </Container>
   )
 }
+
+const Form = styled.form`
+  div,
+  button {
+    display: block;
+    width: 100%;
+  }
+`
+
+const Subtitle = styled.p`
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  color: var(--text_secondary);
+  margin-bottom: 38px;
+`

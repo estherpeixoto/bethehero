@@ -8,14 +8,14 @@ export const Button = (props: ButtonProps) => {
 }
 
 const ButtonStyled = styled.button`
-  background: var(--color-red-hero);
+  background: var(--brand);
   box-shadow: none;
   border-radius: 0.44rem;
   font-weight: 700;
   font-size: 1rem;
   line-height: 1.16rem;
   text-align: center;
-  color: var(--color-background);
+  color: var(--text_on_brand);
   height: 60px;
   cursor: pointer;
   transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;

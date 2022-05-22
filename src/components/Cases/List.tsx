@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Case } from '@lib/entities'
 import { caseService } from '@services/case.services'
-import { Item } from '@components/Cases/Item'
 import { Loading } from '@components/Loading'
-import styles from './styles.module.css'
+import { PublicItem } from '@components/Cases/PublicItem'
+import styled from 'styled-components'
 
 export function List() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -25,14 +25,21 @@ export function List() {
   }
 
   return (
-    <div className={styles.container}>
+    <ListStyled>
       {isLoading ? (
         <Loading />
       ) : (
         cases.map((item) => {
-          return <Item detailPage={false} item={item} key={item.id} />
+          return <PublicItem detailPage={false} item={item} key={item.id} />
         })
       )}
-    </div>
+    </ListStyled>
   )
 }
+
+const ListStyled = styled.div`
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+`

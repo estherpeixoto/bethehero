@@ -13,6 +13,6 @@ const H1Styled = styled.h1`
   font-weight: 500;
   font-size: 30px;
   line-height: 30px;
-  color: var(--color-primary-title);
+  color: var(--text_primary);
   margin-bottom: 16px;
 `

@@ -3,12 +3,7 @@ import { PrivateRoutes } from './PrivateRoutes'
 import { PublicRoutes } from './PublicRoutes'
 
 export function Routes() {
-  const { authenticated, organization } = useAuth()
-
-  console.log({
-    authenticated,
-    organization
-  })
+  const { authenticated } = useAuth()
 
   return authenticated ? <PrivateRoutes /> : <PublicRoutes />
 }

@@ -41,21 +41,21 @@ const InputContainer = styled.div`
 `
 
 const InputStyled = styled.input`
-  background: var(--color-inputs);
-  border: 1.5px solid var(--color-border);
+  background: var(--surface_secondary);
+  border: 1.5px solid var(--stroke);
   box-sizing: border-box;
   border-radius: 0.44rem;
   padding: 15px 15px 0;
   height: 60px;
   margin-bottom: 15.9px;
   width: 100%;
-
+  color: var(--text_primary);
   outline: none;
   box-shadow: none;
   transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
   :focus {
-    box-shadow: 0 0 0 2px #dcdce6;
+    box-shadow: 0 0 0 2px var(--surface_secondary_hover);
   }
 `
 
@@ -68,12 +68,12 @@ const LabelStyled = styled.label`
 
   font-weight: 400;
   font-size: 18px;
-  color: var(--color-secondary-text);
+  color: var(--text_secondary);
   line-height: 1;
   left: 16px;
 
   &:focus-within {
     transform: translate(0, 12px) scale(0.8);
-    color: var(--color-label-focus);
+    color: var(--brand);
   }
 `

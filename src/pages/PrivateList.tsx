@@ -1,15 +1,22 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { FiPower } from 'react-icons/fi'
 import { useAuth } from '@hooks/useAuth'
 import { Case } from '@lib/entities'
 import { caseService } from '@services/case.services'
 import { PageHeader } from '@components/PageHeader'
-import { Button } from '@components/Button'
 import { Title } from '@components/Title'
 import { Loading } from '@components/Loading'
 import { PrivateItem } from '@components/Cases/PrivateItem'
-import { FiPower } from 'react-icons/fi'
-import styles from './styles.module.css'
+import { ButtonIcon } from '@components/ButtonIcon'
+import { DarkModeToggle } from '@components/DarkModeToggle'
+import { PageHeaderButtons } from '@components/PageHeaderButtons'
+import { Hello } from '@components/PrivateList/Hello'
+import { HeaderContent } from '@components/PrivateList/HeaderContent'
+import { AddCaseButton } from '@components/PrivateList/AddCaseButton'
+import { Container } from '@components/Container'
+import { Main } from '@components/Main'
+import styled from 'styled-components'
 
 export function PrivateList() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -40,51 +47,27 @@ export function PrivateList() {
   }
 
   return (
-    <div id={styles.List} className={styles.container}>
-      <main>
+    <Container>
+      <Main>
         <PageHeader>
-          <div
-            style={{
-              display: 'flex',
-              flex: 1,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginLeft: 48,
-            }}
-          >
-            <p>Bem vinda, {organization.name}</p>
+          <HeaderContent>
+            <Hello organizationName={organization.name} />
 
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 24,
-              }}
-            >
-              <Button style={{ width: 262 }}>Cadastrar novo caso</Button>
+            <PageHeaderButtons>
+              <AddCaseButton />
 
-              <button
-                style={{
-                  width: 60,
-                  height: 60,
-                  border: 1,
-                  borderStyle: 'solid',
-                  borderColor: 'var(--color-border)',
-                  borderRadius: 8,
-                  color: 'var(--color-red-hero)',
-                  cursor: 'pointer',
-                }}
-                onClick={handleSignOut}
-              >
+              <DarkModeToggle />
+
+              <ButtonIcon onClick={handleSignOut}>
                 <FiPower size={24} />
-              </button>
-            </div>
-          </div>
+              </ButtonIcon>
+            </PageHeaderButtons>
+          </HeaderContent>
         </PageHeader>
 
         <Title>Casos cadastrados</Title>
 
-        <div className={styles.container}>
+        <Grid>
           {isLoading ? (
             <Loading />
           ) : (
@@ -92,8 +75,16 @@ export function PrivateList() {
               return <PrivateItem item={item} key={item.id} />
             })
           )}
-        </div>
-      </main>
-    </div>
+        </Grid>
+      </Main>
+    </Container>
   )
 }
+
+const Grid = styled.div`
+  padding-top: 19px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+`

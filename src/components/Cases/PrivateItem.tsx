@@ -1,6 +1,6 @@
-import styled from 'styled-components'
 import { Case } from '@lib/entities'
 import { FiEdit, FiTrash2 } from 'react-icons/fi'
+import styled from 'styled-components'
 
 type PrivateItemProps = {
   item: Case
@@ -50,7 +50,7 @@ export function PrivateItem({ item }: PrivateItemProps) {
 }
 
 const Card = styled.div`
-  background: var(--color-background-card);
+  background: var(--surface_secondary);
   border-radius: 8px;
   overflow: hidden;
 `
@@ -60,11 +60,11 @@ const Container = styled.main`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  color: var(--color-text);
+  color: var(--text_secondary);
   position: relative;
 
   strong {
-    color: var(--color-secondary-title);
+    color: var(--text_primary);
   }
 `
 
@@ -77,11 +77,11 @@ const ButtonsContainer = styled.div`
 
 const Button = styled.button`
   transition: all 0.2s;
-  color: var(--color-text);
+  color: var(--text_secondary);
   background-color: transparent;
   cursor: pointer;
 
   :hover {
-    color: var(--color-red-hero);
+    color: var(--brand_hover);
   }
 `
