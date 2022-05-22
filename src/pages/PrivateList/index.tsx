@@ -1,20 +1,40 @@
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '@hooks/useAuth'
+import { Case } from '@lib/entities'
+import { caseService } from '@services/case.services'
 import { PageHeader } from '@components/PageHeader'
 import { Button } from '@components/Button'
 import { Title } from '@components/Title'
-import { List } from '@components/Cases/List'
-import styles from './styles.module.css'
-import { useAuth } from 'src/hooks/useAuth'
+import { Loading } from '@components/Loading'
+import { PrivateItem } from '@components/Cases/PrivateItem'
 import { FiPower } from 'react-icons/fi'
+import styles from './styles.module.css'
 
 export function PrivateList() {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [cases, setCases] = useState<Array<Case>>([])
+
   const { organization, signOut } = useAuth()
   const navigate = useNavigate()
 
-  const handleSignOut = async () => {
-    const status = await signOut()
+  useEffect(() => {
+    fetchCases()
+  }, [])
 
-    if (status) {
+  const fetchCases = async () => {
+    setIsLoading(true)
+
+    const data = await caseService.findAllByOrganization(organization)
+    setCases(data)
+
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 500)
+  }
+
+  const handleSignOut = () => {
+    if (signOut()) {
       navigate('/')
     }
   }
@@ -33,6 +53,7 @@ export function PrivateList() {
             }}
           >
             <p>Bem vinda, {organization.name}</p>
+
             <div
               style={{
                 display: 'flex',
@@ -41,6 +62,7 @@ export function PrivateList() {
               }}
             >
               <Button style={{ width: 262 }}>Cadastrar novo caso</Button>
+
               <button
                 style={{
                   width: 60,
@@ -60,13 +82,17 @@ export function PrivateList() {
           </div>
         </PageHeader>
 
-        <Title>Bem-vindo!</Title>
+        <Title>Casos cadastrados</Title>
 
-        <p className={styles.subtitle}>
-          Escolha um dos casos abaixo e salve o dia.
-        </p>
-
-        <List />
+        <div className={styles.container}>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            cases.map((item) => {
+              return <PrivateItem item={item} key={item.id} />
+            })
+          )}
+        </div>
       </main>
     </div>
   )

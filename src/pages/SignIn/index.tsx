@@ -6,7 +6,7 @@ import { PageHeader } from '@components/PageHeader'
 import { Title } from '@components/Title'
 import { Link } from '@components/Link'
 import styles from './styles.module.css'
-import { useAuth } from 'src/hooks/useAuth'
+import { useAuth } from '@hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 
 export function SignIn() {

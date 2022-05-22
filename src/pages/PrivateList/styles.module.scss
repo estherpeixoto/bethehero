@@ -8,19 +8,11 @@
     padding: 24px;
   }
 
-  .headerText {
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 15px;
-    text-align: right;
-    color: var(--color-text);
-  }
-
-  p.subtitle {
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 30px;
-    color: var(--color-text);
-    margin-bottom: 38px;
+  .container {
+    padding-top: 19px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-column-gap: 16px;
+    grid-row-gap: 16px;
   }
 }

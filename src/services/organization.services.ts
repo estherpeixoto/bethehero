@@ -18,9 +18,25 @@ class OrganizationService {
     this.organizationRef = collection(db, 'organization')
   }
 
-  async add(newOrganization: Organization) {
-    const organizationRef = await addDoc(this.organizationRef, newOrganization)
-    return organizationRef.id ? true : false
+  async findAll() {
+    const querySnapshot = await getDocs(this.organizationRef)
+
+    let organizations: Organization[] = []
+
+    querySnapshot.forEach(async (rows) => {
+      const item = rows.data()
+
+      organizations.push({
+        id: rows.id,
+        name: item.name,
+        email: item.email,
+        phone: item.phone,
+        city: item.city,
+        state: item.state,
+      })
+    })
+
+    return organizations
   }
 
   async find(email: string) {
@@ -44,6 +60,11 @@ class OrganizationService {
     })
 
     return organization
+  }
+
+  async add(newOrganization: Organization) {
+    const organizationRef = await addDoc(this.organizationRef, newOrganization)
+    return organizationRef.id ? true : false
   }
 }
 
