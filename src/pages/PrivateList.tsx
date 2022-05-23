@@ -16,6 +16,7 @@ import { HeaderContent } from '@components/PrivateList/HeaderContent'
 import { AddCaseButton } from '@components/PrivateList/AddCaseButton'
 import { Container, Main } from '@components/Layout'
 import styled from 'styled-components'
+import { EmptyState } from '@components/Feedback/EmptyState'
 
 export function PrivateList() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -69,10 +70,12 @@ export function PrivateList() {
         <Grid>
           {isLoading ? (
             <Loading />
-          ) : (
+          ) : cases.length > 0 ? (
             cases.map((item) => {
               return <PrivateItem item={item} key={item.id} />
             })
+          ) : (
+            <EmptyState />
           )}
         </Grid>
       </Main>
