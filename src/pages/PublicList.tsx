@@ -4,9 +4,8 @@ import { Button } from '@components/Button'
 import { Title } from '@components/Title'
 import { List } from '@components/Cases/List'
 import { DarkModeToggle } from '@components/DarkModeToggle'
-import { Container } from '@components/Container'
+import { Container, Main } from '@components/Layout'
 import { PageHeaderButtons } from '@components/PageHeaderButtons'
-import { Main } from '@components/Main'
 import styled from 'styled-components'
 
 export function PublicList() {

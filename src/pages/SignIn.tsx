@@ -9,7 +9,7 @@ import { Title } from '@components/Title'
 import { Link } from '@components/Link'
 import { DarkModeToggle } from '@components/DarkModeToggle'
 import { ButtonIcon } from '@components/ButtonIcon'
-import { Container } from '@components/Container'
+import { Container } from '@components/Layout'
 import styled from 'styled-components'
 
 export function SignIn() {

@@ -25,7 +25,7 @@ const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  margin: 0 auto;
   padding: 20px;
   gap: 54px;
   max-width: 300px;
@@ -79,7 +79,7 @@ const LinkStyled = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--text_primary);
+  color: var(--text_on_brand);
   height: 50px;
   cursor: pointer;
   transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;

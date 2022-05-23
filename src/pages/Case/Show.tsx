@@ -9,8 +9,7 @@ import {
   PublicItem,
 } from '@components/Cases/PublicItem'
 import { Button } from '@components/Button'
-import { Container } from '@components/Container'
-import { Main } from '@components/Main'
+import { Container, Main } from '@components/Layout'
 import styled from 'styled-components'
 import { ButtonIcon } from '@components/ButtonIcon'
 import { DarkModeToggle } from '@components/DarkModeToggle'

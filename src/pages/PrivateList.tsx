@@ -14,8 +14,7 @@ import { PageHeaderButtons } from '@components/PageHeaderButtons'
 import { Hello } from '@components/PrivateList/Hello'
 import { HeaderContent } from '@components/PrivateList/HeaderContent'
 import { AddCaseButton } from '@components/PrivateList/AddCaseButton'
-import { Container } from '@components/Container'
-import { Main } from '@components/Main'
+import { Container, Main } from '@components/Layout'
 import styled from 'styled-components'
 
 export function PrivateList() {
