@@ -12,16 +12,29 @@ export const Input = ({ label, name, value, ...rest }: InputProps) => {
   const [focused, setFocused] = useState(false)
 
   useEffect(() => {
+    handleInputFocus()
+  }, [value])
+
+  const handleInputFocus = () => {
     if (value === '') {
       setFocused(false)
     } else {
       setFocused(true)
     }
-  }, [value])
+  }
 
   return (
     <InputContainer>
-      <InputStyled {...rest} name={name} title={label} value={value} />
+      <InputStyled
+        {...rest}
+        name={name}
+        title={label}
+        value={value}
+        onClick={() => {
+          setFocused(true)
+        }}
+        onBlur={handleInputFocus}
+      />
 
       <LabelStyled className={focused ? 'filled' : ''} htmlFor={name}>
         {label}
