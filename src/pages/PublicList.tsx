@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom'
 import { PageHeader } from '@components/PageHeader'
 import { Button } from '@components/Button'
-import { Title } from '@components/Title'
+import { Subtitle, Title } from '@components/Title'
 import { List } from '@components/Cases/List'
 import { DarkModeToggle } from '@components/DarkModeToggle'
 import { Container, Main } from '@components/Layout'
 import { PageHeaderButtons } from '@components/PageHeaderButtons'
-import styled from 'styled-components'
 
 export function PublicList() {
   return (
@@ -30,11 +29,3 @@ export function PublicList() {
     </Container>
   )
 }
-
-const Subtitle = styled.p`
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 30px;
-  color: var(--text_secondary);
-  margin-bottom: 38px;
-`

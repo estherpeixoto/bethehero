@@ -9,9 +9,9 @@ const HeaderContentStyled = styled.div`
   flex: 1;
   justify-content: end;
   align-items: center;
-  margin-left: 48px;
 
   @media (min-width: 1024px) {
     justify-content: space-between;
+    margin-left: 48px;
   }
 `
