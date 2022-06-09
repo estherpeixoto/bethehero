@@ -24,7 +24,7 @@ export function CreateAccount() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
 
-    organizationService
+    /* organizationService
       .add({
         name,
         email,
@@ -33,7 +33,7 @@ export function CreateAccount() {
         state,
       })
       .then(() => setFeedback(true))
-      .catch(() => setFeedback(false))
+      .catch(() => setFeedback(false)) */
   }
 
   return (

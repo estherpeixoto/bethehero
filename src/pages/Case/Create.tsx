@@ -9,15 +9,38 @@ import { Link } from '@components/Link'
 import { DarkModeToggle } from '@components/DarkModeToggle'
 import { ButtonIcon } from '@components/ButtonIcon'
 import { Container, Main } from '@components/Layout'
+import { caseService } from '@services/case.services'
+import { stringToFloat } from '@utils/number'
+import { useAuth } from '@hooks/useAuth'
 
 export function Create() {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [value, setValue] = useState('')
+  const { organization } = useAuth()
   const navigate = useNavigate()
 
-  const handleSubmit = (e: FormEvent) => {
-    navigate('/')
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+
+    if (
+      title.trim() !== '' &&
+      description.trim() !== '' &&
+      value.trim() !== ''
+    ) {
+      const status = await caseService.add({
+        organization,
+        title,
+        description,
+        value: stringToFloat(value),
+      })
+
+      if (status) {
+        return navigate('/')
+      }
+
+      return alert('Falha ao salvar caso')
+    }
   }
 
   return (

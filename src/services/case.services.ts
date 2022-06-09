@@ -6,6 +6,7 @@ import {
   where,
   CollectionReference,
   DocumentData,
+  addDoc,
 } from 'firebase/firestore'
 
 import { db } from '@lib/firebase'
@@ -19,17 +20,18 @@ class CaseService {
     this.caseRef = collection(db, 'cases')
   }
 
-  async findAll() {
-    let cases: Case[] = []
+  public async findAll() {
     const organizations = await organizationService.findAll()
 
-    const casesQuerySnapshot = await getDocs(this.caseRef)
+    let cases: Case[] = []
 
-    casesQuerySnapshot.forEach(async (rows) => {
+    const querySnapshot = await getDocs(this.caseRef)
+
+    querySnapshot.forEach(async (rows) => {
       const item = rows.data()
 
-      const organizationData = organizations.find((row) => {
-        if (item.organization.id === row.id) {
+      const organizationData = organizations.find(async (row) => {
+        if (item.organization.id === row.uid) {
           return row
         }
       })
@@ -37,12 +39,13 @@ class CaseService {
       cases.push({
         id: rows.id,
         organization: {
-          id: organizationData.id,
+          uid: organizationData.uid,
           name: organizationData.name,
           email: organizationData.email,
           phone: organizationData.phone,
           city: organizationData.city,
           state: organizationData.state,
+          avatar: organizationData.avatar,
         },
         title: item.title,
         description: item.description,
@@ -53,11 +56,9 @@ class CaseService {
     return cases
   }
 
-  async findAllByOrganization(organization: Organization) {
-    const organizationRef = doc(db, 'organization', organization.id)
-
+  public async findAllByOrganization(organization: Organization) {
     const querySnapshot = await getDocs(
-      query(this.caseRef, where('organization', '==', organizationRef))
+      query(this.caseRef, where('organization', '==', organization.uid))
     )
 
     let cases: Case[] = []
@@ -75,6 +76,17 @@ class CaseService {
     })
 
     return cases
+  }
+
+  public async add(newCase: Case) {
+    const caseRef = await addDoc(this.caseRef, {
+      organization: newCase.organization.uid,
+      title: newCase.title,
+      description: newCase.description,
+      value: newCase.value,
+    })
+
+    return caseRef.id ? true : false
   }
 }
 

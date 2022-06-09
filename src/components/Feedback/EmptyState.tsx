@@ -11,15 +11,15 @@ export const EmptyState = () => {
         gap: 16,
       }}
     >
-      <FiFolderPlus size={48} strokeWidth={1} strokeOpacity="30%" />
-      <p style={{ textAlign: 'center' }}>
+      <FiFolderPlus color='var(--text_primary)' size={48} strokeWidth={1} strokeOpacity="30%" />
+      <div style={{ textAlign: 'center' }}>
         <p style={{ color: 'var(--text_primary)', fontWeight: 500 }}>
           Nenhum caso
         </p>
         <p style={{ color: 'var(--text_secondary)' }}>
           Comece adicionando algum caso.
         </p>
-      </p>
+      </div>
       <AddCaseButton />
     </div>
   )
