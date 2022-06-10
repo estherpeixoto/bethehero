@@ -22,7 +22,7 @@ export function PrivateList() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [cases, setCases] = useState<Array<Case>>([])
 
-  const { organization, signOut } = useAuth()
+  const { user, signout } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -32,7 +32,15 @@ export function PrivateList() {
   const fetchCases = async () => {
     setIsLoading(true)
 
-    const data = await caseService.findAllByOrganization(organization)
+    const data = await caseService.findAllByOrganization({
+      id: user.uid,
+      name: user.displayName,
+      email: user.email,
+      phone: user.phoneNumber,
+      city: null,
+      state: null,
+    })
+
     setCases(data)
 
     setTimeout(() => {
@@ -41,7 +49,7 @@ export function PrivateList() {
   }
 
   const handleSignOut = () => {
-    if (signOut()) {
+    if (signout()) {
       navigate('/')
     }
   }
@@ -51,7 +59,7 @@ export function PrivateList() {
       <Main>
         <PageHeader>
           <HeaderContent>
-            <Hello organizationName={organization.name} />
+            <Hello organizationName={user.displayName} />
 
             <PageHeaderButtons>
               <AddCaseButton />

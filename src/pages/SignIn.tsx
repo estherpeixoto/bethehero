@@ -14,16 +14,24 @@ import styled from 'styled-components'
 
 export function SignIn() {
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const { signIn } = useAuth()
   const navigate = useNavigate()
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
-    const status = await signIn(email)
+    if (email.trim() !== '' && password.trim() !== '') {
+      if (password.length < 6) {
+        alert('Senha deve ter mais de 6 caracteres')
+        return
+      }
 
-    if (status) {
-      navigate('/')
+      const response = await signIn(email, password)
+
+      if (response) {
+        navigate('/')
+      }
     }
   }
 
@@ -47,8 +55,22 @@ export function SignIn() {
             name="email"
             value={email}
             required
+            type="email"
+            autoComplete="username"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setEmail(e.target.value)
+            }
+          />
+
+          <Input
+            label="Sua senha"
+            name="password"
+            value={password}
+            required
+            type="password"
+            autoComplete="current-password"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
             }
           />
 

@@ -1,63 +1,122 @@
-import { createContext, useContext, useState } from 'react'
-import { Organization } from '@lib/entities'
-import { organizationService } from '@services/organization.services'
-import { setStorage, getStorage } from '@utils/storage'
+import { createContext, useContext, useEffect, useState } from 'react'
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  User,
+} from 'firebase/auth'
+import { auth } from '@lib/firebase'
 
-interface AuthProviderInterface {
-  authenticated: Boolean
-  organization: Organization|null
-  signIn: (email: string) => Promise<boolean>
-  signOut: () => boolean
+interface AuthContextProps {
+  user: User
+  signIn: (email: string, password: string) => Promise<User>
+  signup: (email: string, password: string) => Promise<User>
+  signout: () => Promise<void>
 }
 
-const AuthContext = createContext<AuthProviderInterface | null>(null)
+const authContext = createContext<AuthContextProps | null>(null)
 
-export const AuthProvider = ({ children }) => {
-  const [authenticated, setAuthenticated] = useState<boolean>(
-    JSON.parse(getStorage('authenticated'))
-  )
+function useAuthProvider() {
+  const [user, setUser] = useState(null)
 
-  const [organization, setOrganization] = useState<Organization | null>(
-    JSON.parse(getStorage('organization'))
-  )
+  const handleErrors = {
+    /**
+     * Register the new user and then sign-in
+     */
+    'auth/user-not-found': async (
+      email: string,
+      password: string
+    ): Promise<boolean> => {
+      Promise.all([
+        await createUserWithEmailAndPassword(auth, email, password),
+        await signInWithEmailAndPassword(auth, email, password),
+      ]).then((response) => {
+        setUser(response[1].user)
+        return true
+      })
 
-  const signIn = async (email: string) => {
-    const result = await organizationService.find(email)
+      return false
+    },
 
-    if (result) {
-      setAuthenticated(true)
-      setOrganization(result)
+    /**
+     * Displays incorrect password message
+     */
+    'auth/wrong-password': (): void => {
+      alert('Senha incorreta')
+      return
+    },
+  }
 
-      setStorage('authenticated', 'true')
-      setStorage('organization', JSON.stringify(result))
+  const signIn = async (email: string, password: string): Promise<User> => {
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password)
 
-      return true
+      if (response) {
+        setUser(response.user)
+        return response.user
+      }
+
+      throw 'no response'
+    } catch (e) {
+      handleErrors[e.code](email, password)
     }
-
-    return false
   }
 
-  const signOut = () => {
-    setStorage('authenticated', 'false')
-    setStorage('organization', 'null')
-    setAuthenticated(false)
-    setOrganization(null)
+  const signup = async (email: string, password: string): Promise<User> => {
+    try {
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
 
-    return true
+      if (response) {
+        setUser(response.user)
+        return response.user
+      }
+
+      throw 'no response'
+    } catch (e) {
+      console.error(e)
+    }
   }
 
-  return (
-    <AuthContext.Provider
-      value={{
-        authenticated,
-        organization,
-        signIn,
-        signOut,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  )
+  const signout = async (): Promise<void> => {
+    try {
+      await signOut(auth)
+      setUser(false)
+      return
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user)
+      } else {
+        setUser(false)
+      }
+    })
+
+    return () => unsubscribe()
+  }, [])
+
+  return {
+    user,
+    signIn,
+    signup,
+    signout,
+  }
 }
 
-export const useAuth = () => useContext(AuthContext)
+export function AuthProvider({ children }) {
+  const auth = useAuthProvider()
+  return <authContext.Provider value={auth}>{children}</authContext.Provider>
+}
+
+export const useAuth = () => {
+  return useContext(authContext)
+}

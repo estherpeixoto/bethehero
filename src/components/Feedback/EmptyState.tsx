@@ -12,14 +12,14 @@ export const EmptyState = () => {
       }}
     >
       <FiFolderPlus size={48} strokeWidth={1} strokeOpacity="30%" />
-      <p style={{ textAlign: 'center' }}>
+      <div style={{ textAlign: 'center' }}>
         <p style={{ color: 'var(--text_primary)', fontWeight: 500 }}>
           Nenhum caso
         </p>
         <p style={{ color: 'var(--text_secondary)' }}>
           Comece adicionando algum caso.
         </p>
-      </p>
+      </div>
       <AddCaseButton />
     </div>
   )
