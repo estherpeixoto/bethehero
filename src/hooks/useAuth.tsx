@@ -3,27 +3,43 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signOut,
+  signOut as signOutFirebase,
   User,
 } from 'firebase/auth'
 import { auth } from '@lib/firebase'
+import { Organization } from '@lib/entities'
+import { organizationService } from '@services/organization.services'
 
 interface AuthContextProps {
   user: User
+  organization: Organization
   signIn: (email: string, password: string) => Promise<User>
-  signup: (email: string, password: string) => Promise<User>
-  signout: () => Promise<void>
+  signUp: (organization: Organization) => Promise<User>
+  signOut: () => Promise<void>
 }
 
 const authContext = createContext<AuthContextProps | null>(null)
 
 function useAuthProvider() {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState<User | null>(null)
+  const [organization, setOrganization] = useState<Organization | null>(null)
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user)
+      } else {
+        setUser(null)
+      }
+    })
+
+    return () => unsubscribe()
+  }, [])
 
   const handleErrors = {
     /**
      * Register the new user and then sign-in
-     */
+     
     'auth/user-not-found': async (
       email: string,
       password: string
@@ -37,6 +53,14 @@ function useAuthProvider() {
       })
 
       return false
+    },*/
+
+    /**
+     * Displays user not found message
+     */
+    'auth/user-not-found': (): void => {
+      alert('Usuário não encontrado')
+      return
     },
 
     /**
@@ -54,26 +78,43 @@ function useAuthProvider() {
 
       if (response) {
         setUser(response.user)
+
+        const organization = await organizationService.find(user.uid)
+
+        setOrganization(organization)
+
         return response.user
       }
 
       throw 'no response'
     } catch (e) {
-      handleErrors[e.code](email, password)
+      handleErrors[e.code]
     }
   }
 
-  const signup = async (email: string, password: string): Promise<User> => {
+  const signUp = async (organization: Organization): Promise<User> => {
     try {
       const response = await createUserWithEmailAndPassword(
         auth,
-        email,
-        password
+        organization.email,
+        organization.password
       )
 
       if (response) {
-        setUser(response.user)
-        return response.user
+        const newOrganization = {
+          id: response.user.uid,
+          name: organization.name,
+          email: organization.email,
+          phone: organization.phone,
+          city: organization.city,
+          state: organization.state,
+        }
+
+        if (await organizationService.add(newOrganization)) {
+          setOrganization(newOrganization)
+          setUser(response.user)
+          return response.user
+        }
       }
 
       throw 'no response'
@@ -82,33 +123,23 @@ function useAuthProvider() {
     }
   }
 
-  const signout = async (): Promise<void> => {
+  const signOut = async (): Promise<void> => {
     try {
-      await signOut(auth)
-      setUser(false)
+      await signOutFirebase(auth)
+      setUser(null)
+      setOrganization(null)
       return
     } catch (e) {
       console.error(e)
     }
   }
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user)
-      } else {
-        setUser(false)
-      }
-    })
-
-    return () => unsubscribe()
-  }, [])
-
   return {
     user,
+    organization,
     signIn,
-    signup,
-    signout,
+    signUp,
+    signOut,
   }
 }
 

@@ -39,9 +39,9 @@ class OrganizationService {
     return organizations
   }
 
-  async find(email: string) {
+  async find(id: string) {
     const querySnapshot = await getDocs(
-      query(this.organizationRef, where('email', '==', email))
+      query(this.organizationRef, where('id', '==', id))
     )
 
     let organization: Organization

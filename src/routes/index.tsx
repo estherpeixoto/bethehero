@@ -3,7 +3,7 @@ import { PrivateRoutes } from './PrivateRoutes'
 import { PublicRoutes } from './PublicRoutes'
 
 export function Routes() {
-  const { user } = useAuth()
+  const { organization } = useAuth()
 
-  return user ? <PrivateRoutes /> : <PublicRoutes />
+  return organization ? <PrivateRoutes /> : <PublicRoutes />
 }
