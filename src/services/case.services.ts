@@ -6,6 +6,7 @@ import {
   where,
   CollectionReference,
   DocumentData,
+  addDoc,
 } from 'firebase/firestore'
 
 import { db } from '@lib/firebase'
@@ -19,6 +20,9 @@ class CaseService {
     this.caseRef = collection(db, 'cases')
   }
 
+  /**
+   * Get all registered cases
+   */
   async findAll() {
     let cases: Case[] = []
     const organizations = await organizationService.findAll()
@@ -29,7 +33,7 @@ class CaseService {
       const item = rows.data()
 
       const organizationData = organizations.find((row) => {
-        if (item.organization.id === row.id) {
+        if (item.organization === row.id) {
           return row
         }
       })
@@ -53,11 +57,12 @@ class CaseService {
     return cases
   }
 
+  /**
+   * Get all registered cases of one organization
+   */
   async findAllByOrganization(organization: Organization) {
-    const organizationRef = doc(db, 'organization', organization.id)
-
     const querySnapshot = await getDocs(
-      query(this.caseRef, where('organization', '==', organizationRef))
+      query(this.caseRef, where('organization', '==', organization.id))
     )
 
     let cases: Case[] = []
@@ -75,6 +80,17 @@ class CaseService {
     })
 
     return cases
+  }
+
+  public async add(newCase: Case) {
+    const caseRef = await addDoc(this.caseRef, {
+      organization: newCase.organization.id,
+      title: newCase.title,
+      description: newCase.description,
+      value: newCase.value,
+    })
+    
+    return caseRef.id ? true : false
   }
 }
 
