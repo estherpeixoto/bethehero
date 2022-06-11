@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import { PublicList } from '@pages/PublicList'
 import { SignIn } from '@pages/SignIn'
-import { CreateAccount } from '@pages/CreateAccount'
+import { SignUp } from '@pages/SignUp'
 import { Show } from '@pages/Case/Show'
 
 export function PublicRoutes() {
@@ -9,7 +9,7 @@ export function PublicRoutes() {
     <Routes>
       <Route path="/" element={<PublicList />} />
       <Route path="sign-in" element={<SignIn />} />
-      <Route path="create-account" element={<CreateAccount />} />
+      <Route path="sign-up" element={<SignUp />} />
       <Route path="case/:id" element={<Show />} />
     </Routes>
   )

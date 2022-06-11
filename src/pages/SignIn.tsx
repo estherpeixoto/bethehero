@@ -76,7 +76,7 @@ export function SignIn() {
 
           <Button type="submit">Entrar</Button>
 
-          <Link to="/create-account">
+          <Link to="/sign-up">
             <FiLogIn />
             Não tenho cadastro
           </Link>

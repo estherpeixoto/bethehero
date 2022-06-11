@@ -12,7 +12,7 @@ import { Container, Main } from '@components/Layout'
 import { ButtonIcon } from '@components/ButtonIcon'
 import { DarkModeToggle } from '@components/DarkModeToggle'
 
-export function CreateAccount() {
+export function SignUp() {
   const navigation = useNavigate()
   const { signUp } = useAuth()
 
