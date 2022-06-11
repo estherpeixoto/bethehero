@@ -27,7 +27,7 @@ class OrganizationService {
       const item = rows.data()
 
       organizations.push({
-        id: rows.id,
+        id: item.id,
         name: item.name,
         email: item.email,
         phone: item.phone,
@@ -50,7 +50,7 @@ class OrganizationService {
       const data = item.data()
 
       organization = {
-        id: item.id,
+        id: data.id,
         name: data.name,
         email: data.email,
         phone: data.phone,
