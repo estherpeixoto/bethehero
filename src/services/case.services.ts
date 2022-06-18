@@ -7,10 +7,12 @@ import {
   CollectionReference,
   DocumentData,
   addDoc,
+  updateDoc,
+  deleteDoc,
 } from 'firebase/firestore'
 
 import { db } from '@lib/firebase'
-import { Case, Organization } from '@lib/entities'
+import { Case, Organization, UpdatedCase } from '@lib/entities'
 import { organizationService } from './organization.services'
 
 class CaseService {
@@ -89,8 +91,18 @@ class CaseService {
       description: newCase.description,
       value: newCase.value,
     })
-    
+
     return caseRef.id ? true : false
+  }
+
+  public async update(updatedCase: UpdatedCase) {
+    await updateDoc(doc(db, 'cases', updatedCase.id), updatedCase)
+    return true
+  }
+
+  public async delete(id: string) {
+    await deleteDoc(doc(db, 'cases', id))
+    return true
   }
 }
 

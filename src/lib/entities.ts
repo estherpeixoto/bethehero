@@ -15,3 +15,10 @@ export type Case = {
   description: string
   value: number
 }
+
+export type UpdatedCase = {
+  id: string
+  title: string
+  description: string
+  value: number
+}

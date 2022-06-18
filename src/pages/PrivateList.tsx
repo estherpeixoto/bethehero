@@ -47,6 +47,18 @@ export function PrivateList() {
     }
   }
 
+  const deleteCase = async (id: string) => {
+    if (confirm('Deseja excluir o caso?')) {
+      await caseService.delete(id)
+
+      const newCasesList = cases.filter((item) => {
+        return item.id !== id
+      })
+
+      setCases(newCasesList)
+    }
+  }
+
   return (
     <Container>
       <Main>
@@ -73,7 +85,13 @@ export function PrivateList() {
             <Loading />
           ) : cases.length > 0 ? (
             cases.map((item) => {
-              return <PrivateItem item={item} key={item.id} />
+              return (
+                <PrivateItem
+                  item={item}
+                  key={item.id}
+                  deleteCase={deleteCase}
+                />
+              )
             })
           ) : (
             <EmptyState />

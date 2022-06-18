@@ -1,13 +1,15 @@
-import { Case } from '@lib/entities'
-import { FiEdit, FiTrash2 } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { FiEdit, FiTrash2 } from 'react-icons/fi'
+import { Case } from '@lib/entities'
 
 type PrivateItemProps = {
   item: Case
+  deleteCase: (id: string) => Promise<void>
   key: string
 }
 
-export function PrivateItem({ item }: PrivateItemProps) {
+export function PrivateItem({ item, deleteCase }: PrivateItemProps) {
   const { id, title, description, organization, value } = item
 
   const formattedValue = value.toLocaleString('pt-br', {
@@ -15,17 +17,30 @@ export function PrivateItem({ item }: PrivateItemProps) {
     currency: 'BRL',
   })
 
+  const navigate = useNavigate()
+
   return (
-    <Card>
-      <Container>
-        <ButtonsContainer>
-          <Button>
+    <StyledCard>
+      <StyledContainer>
+        <StyledActions>
+          <StyledButton
+            onClick={() => {
+              navigate(`/case/${id}/edit`, {
+                state: item,
+              })
+            }}
+          >
             <FiEdit size={24} />
-          </Button>
-          <Button>
+          </StyledButton>
+
+          <StyledButton
+            onClick={() => {
+              deleteCase(item.id)
+            }}
+          >
             <FiTrash2 size={24} />
-          </Button>
-        </ButtonsContainer>
+          </StyledButton>
+        </StyledActions>
 
         <p>
           <strong>CASO:</strong>
@@ -44,18 +59,18 @@ export function PrivateItem({ item }: PrivateItemProps) {
           <br></br>
           {formattedValue}
         </p>
-      </Container>
-    </Card>
+      </StyledContainer>
+    </StyledCard>
   )
 }
 
-const Card = styled.div`
+const StyledCard = styled.div`
   background: var(--surface_secondary);
   border-radius: 8px;
   overflow: hidden;
 `
 
-const Container = styled.main`
+const StyledContainer = styled.main`
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -68,14 +83,15 @@ const Container = styled.main`
   }
 `
 
-const ButtonsContainer = styled.div`
+const StyledActions = styled.div`
   display: flex;
+  align-items: center;
   gap: 16px;
   position: absolute;
   right: 20px;
 `
 
-const Button = styled.button`
+const StyledButton = styled.button`
   transition: all 0.2s;
   color: var(--text_secondary);
   background-color: transparent;
