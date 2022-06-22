@@ -25,11 +25,16 @@ function useAuthProvider() {
   const [organization, setOrganization] = useState<Organization | null>(null)
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user)
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      if (authUser) {
+        setUser(authUser)
+
+        organizationService.find(authUser.uid).then((data) => {
+          setOrganization(data)
+        })
       } else {
         setUser(null)
+        setOrganization(null)
       }
     })
 
@@ -37,24 +42,6 @@ function useAuthProvider() {
   }, [])
 
   const handleErrors = {
-    /**
-     * Register the new user and then sign-in
-     
-    'auth/user-not-found': async (
-      email: string,
-      password: string
-    ): Promise<boolean> => {
-      Promise.all([
-        await createUserWithEmailAndPassword(auth, email, password),
-        await signInWithEmailAndPassword(auth, email, password),
-      ]).then((response) => {
-        setUser(response[1].user)
-        return true
-      })
-
-      return false
-    },*/
-
     /**
      * Displays user not found message
      */
@@ -76,17 +63,7 @@ function useAuthProvider() {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password)
 
-      if (response) {
-        setUser(response.user)
-
-        const organization = await organizationService.find(user.uid)
-
-        setOrganization(organization)
-
-        return response.user
-      }
-
-      throw 'no response'
+      return response.user
     } catch (e) {
       handleErrors[e.code]
     }
