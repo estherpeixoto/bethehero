@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FiArrowLeft, FiLogIn } from 'react-icons/fi'
+import { FiArrowLeft, FiLock, FiLogIn } from 'react-icons/fi'
 import { useAuth } from '@hooks/useAuth'
 import { Input } from '@components/Input'
 import { Button } from '@components/Button'
@@ -79,6 +79,11 @@ export function SignIn() {
           <Link to="/sign-up">
             <FiLogIn />
             Não tenho cadastro
+          </Link>
+
+          <Link to="/forgot-password">
+            <FiLock />
+            Esqueci minha senha
           </Link>
         </form>
       </MainStyled>
