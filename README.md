@@ -1,5 +1,5 @@
 <p align="center" dir="auto">
-  <img src="https://raw.githubusercontent.com/estherpeixoto/bethehero/master/public/assets/images/Logo.svg?token=GHSAT0AAAAAABVYDU4XOAPQT7Y4T6PMEIYUYVTWTDQ" height="110" width="175" alt="Be The Hero" style="max-width: 100%;">
+  <img src="https://raw.githubusercontent.com/estherpeixoto/bethehero/f2443d62f3ef2f9befdd60bdc7d06b013afa2e01/public/assets/images/Logo.svg?token=AI7OUIWOSA2UEO6WTR4B2U3CWPA2K" height="110" width="175" alt="Be The Hero" style="max-width: 100%;">
 </p>
 
 <p align="center">
